@@ -24,3 +24,8 @@ hs_err_pid*
 replay_pid*
 /leadership.txt
 /apikey.txt
+/target/
+/retired.*
+/enrolled.*
+/.classpath
+/.project
