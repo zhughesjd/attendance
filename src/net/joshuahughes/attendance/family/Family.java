@@ -1,16 +1,16 @@
-package net.joshuahughes.attendance.couple;
+package net.joshuahughes.attendance.family;
 
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
-public class Couple implements Comparable<Couple>
+public class Family implements Comparable<Family>
 {
 	public static String header = "husbandFirst	husbandLast	husbandBirth	wifeFirst	wifeLast	wifeBirth	anniversary	lastAttended";
 	Person husband;
 	Person wife;
 	LocalDateTime anniversary;
 
-	public Couple(String husbandFirst,String husbandLast,LocalDateTime husbandBirth,LocalDateTime husbandLastAttended,String wifeFirst,String wifeLast,LocalDateTime wifeBirth,LocalDateTime wifeLastAttended,LocalDateTime anniversary)
+	public Family(String husbandFirst,String husbandLast,LocalDateTime husbandBirth,LocalDateTime husbandLastAttended,String wifeFirst,String wifeLast,LocalDateTime wifeBirth,LocalDateTime wifeLastAttended,LocalDateTime anniversary)
 	{
 		this.husband = new Person(husbandFirst,husbandLast,husbandBirth,husbandLastAttended,this);
 		this.wife = new Person(wifeFirst,wifeLast,wifeBirth,wifeLastAttended,this);
@@ -27,7 +27,7 @@ public class Couple implements Comparable<Couple>
 		return lastAttended;
 	}
 	@Override
-	public int compareTo(Couple that)
+	public int compareTo(Family that)
 	{
 		return alphabetical.compare(this, that);
 	}
@@ -35,10 +35,10 @@ public class Couple implements Comparable<Couple>
 	{
 		return husband.getFirst()+"/"+wife.getFirst()+" "+husband.getLast()+" "+getLastAttended().toString().split("T")[0];
 	}
-	public static final Comparator<Couple> alphabetical = new Comparator<Couple>() {
+	public static final Comparator<Family> alphabetical = new Comparator<Family>() {
 
 		@Override
-		public int compare(Couple cA,Couple cB)
+		public int compare(Family cA,Family cB)
 		{
 			int result = cA.getHusband().getLast().compareTo(cB.getHusband().getLast());
 			if(result !=0 ) return result;
@@ -51,18 +51,18 @@ public class Couple implements Comparable<Couple>
 			return cA.getAnniversary().compareTo(cB.getAnniversary());
 		}
 	};
-	public static final Comparator<Couple> lastAttended = new Comparator<Couple>() 
+	public static final Comparator<Family> lastAttended = new Comparator<Family>() 
 	{
 		@Override
-		public int compare(Couple ca,Couple cb)
+		public int compare(Family ca,Family cb)
 		{
 			return ca.getLastAttended().compareTo(cb.getLastAttended());
 		}
 	};
-	public static final Comparator<Couple> anniversaryComparator = new Comparator<Couple>() 
+	public static final Comparator<Family> anniversaryComparator = new Comparator<Family>() 
 	{
 		@Override
-		public int compare(Couple ca,Couple cb)
+		public int compare(Family ca,Family cb)
 		{
 			return ca.getAnniversary().compareTo(cb.getAnniversary());
 		}

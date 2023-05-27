@@ -8,33 +8,33 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import net.joshuahughes.attendance.couple.Couple;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 
 public abstract class AbstractModel implements Model
 {
-	protected SortedSet<Couple> enrolled = new TreeSet<>();
-	protected SortedSet<Couple> retired = new TreeSet<>();
-	LinkedHashMap<Status,SortedSet<Couple>> map = new LinkedHashMap<>();
+	protected SortedSet<Family> enrolled = new TreeSet<>();
+	protected SortedSet<Family> retired = new TreeSet<>();
+	LinkedHashMap<Status,SortedSet<Family>> map = new LinkedHashMap<>();
 	public AbstractModel()
 	{
 		map.put(Status.enrolled, enrolled);
 		map.put(Status.retired, retired);
 	}
 	@Override
-	public List<Couple> getCouples(Status status,Comparator<Couple> cmp)
+	public List<Family> getCouples(Status status,Comparator<Family> cmp)
 	{
-		ArrayList<Couple> list = new ArrayList<Couple>(map.get(status));
+		ArrayList<Family> list = new ArrayList<Family>(map.get(status));
 		Collections.sort(list, cmp);
 		return list;
 	}
 	@Override
-	public boolean add(Couple couple, Status status)
+	public boolean add(Family couple, Status status)
 	{
 		return map.get(status).add(couple);
 	}
 	@Override
-	public boolean remove(Couple couple, Status status)
+	public boolean remove(Family couple, Status status)
 	{
 		return map.get(status).remove(couple);
 	}

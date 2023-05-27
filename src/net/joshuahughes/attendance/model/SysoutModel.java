@@ -14,8 +14,8 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.joshuahughes.attendance.Utility;
-import net.joshuahughes.attendance.couple.Couple;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 
 public class SysoutModel extends AbstractModel
 {
@@ -24,13 +24,13 @@ public class SysoutModel extends AbstractModel
 		enrolled.addAll(read(Status.enrolled));
 		retired.addAll(read(Status.retired));
 	}
-	public boolean enroll(Couple couple)
+	public boolean enroll(Family couple)
 	{	
 		super.enroll(couple);
 		write();
 		return true;
 	}
-	public boolean retire(Couple couple)
+	public boolean retire(Family couple)
 	{	
 		super.retire(couple);
 		write();
@@ -56,7 +56,7 @@ public class SysoutModel extends AbstractModel
 	@Override
 	protected void printTag(Person person)
 	{
-		int anvDiff = person.getCouple().getAnniversary().getDayOfYear() - LocalDateTime.now().getDayOfYear();
+		int anvDiff = person.getFamily().getAnniversary().getDayOfYear() - LocalDateTime.now().getDayOfYear();
 		boolean isAnv = anvDiff <= 0 && anvDiff < 7;
 		String append = isAnv ? "Happy Anniversary!!!" : "";
 		System.out.println("printing tag for "+person.getFirst()+" "+person.getLast() +" "+ append);
@@ -70,9 +70,9 @@ public class SysoutModel extends AbstractModel
 		}
 	};
 
-	private static final SortedSet<Couple> read(Status status) 
+	private static final SortedSet<Family> read(Status status) 
 	{
-		TreeSet<Couple> sorted = new TreeSet<>();
+		TreeSet<Family> sorted = new TreeSet<>();
 		File[] files = new File("./").listFiles(f->f.getName().startsWith(status.name()));
 		String filepath = Arrays.stream(files).map(f->f.getName()).sorted(reverseString).findFirst().get();
 		try {
@@ -80,7 +80,7 @@ public class SysoutModel extends AbstractModel
 			String line = br.readLine();
 			while ((line = br.readLine()) != null) {
 				String[] array = line.split("\t");
-				sorted.add(new Couple
+				sorted.add(new Family
 						(
 								array[0], array[1], LocalDateTime.parse(array[2] + "T00:00:00"),LocalDateTime.parse(array[3] + "T00:00:00"),
 								array[4], array[5], LocalDateTime.parse(array[6] + "T00:00:00"),LocalDateTime.parse(array[7] + "T00:00:00"),
@@ -95,13 +95,13 @@ public class SysoutModel extends AbstractModel
 		}
 		return sorted;
 	}
-	private void write(Collection<Couple> couples,String filepath) 
+	private void write(Collection<Family> couples,String filepath) 
 	{
 		try 
 		{
 			String delimiter = "\t";
 			PrintStream ps = new PrintStream(new FileOutputStream(filepath));
-			ps.println(Couple.header);
+			ps.println(Family.header);
 			couples.forEach
 			(
 				c->ps.println(String.join(delimiter,

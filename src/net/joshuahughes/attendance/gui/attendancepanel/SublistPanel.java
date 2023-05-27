@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.joshuahughes.attendance.couple.Couple;
+import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.model.ListModel;
 import net.joshuahughes.attendance.model.Model;
 import net.joshuahughes.attendance.model.Model.Status;
@@ -32,7 +32,7 @@ public class SublistPanel extends AttendancePanel
 	public void populate(Model model)
 	{
 		couplesPnl.removeAll();
-		List<Couple> list = model.getCouples(Status.enrolled, Couple.alphabetical);
+		List<Family> list = model.getCouples(Status.enrolled, Family.alphabetical);
 		int rowCnt = list.size()/2;
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -50,7 +50,7 @@ public class SublistPanel extends AttendancePanel
 			}
 		}
 	}
-	private Component createButton(Couple couple) 
+	private Component createButton(Family couple) 
 	{
 		JButton btn = new JButton(couple.getHusband().getFirst()+"/"+couple.getWife().getFirst()+" "+couple.getHusband().getLast());
 		btn.addActionListener(l->firePropertyChange(COUPLE_SELECTED, null, new ListModel(Collections.singletonList(couple),Collections.emptyList())));

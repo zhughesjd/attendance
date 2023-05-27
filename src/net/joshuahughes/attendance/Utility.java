@@ -36,8 +36,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import net.joshuahughes.attendance.couple.Couple;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.gui.attendancepanel.TextPanel.Leader;
 import net.joshuahughes.attendance.model.Model;
 import net.joshuahughes.attendance.model.Model.Status;
@@ -49,7 +49,7 @@ public class Utility
 	
 	public static void printRoster(Model model)
 	{
-		ArrayList<Couple> list = new ArrayList<>(model.getCouples(Status.enrolled,Couple.alphabetical));
+		ArrayList<Family> list = new ArrayList<>(model.getCouples(Status.enrolled,Family.alphabetical));
 		while(list.size()>0)
 		{
 			print(removeThenCreate(list));
@@ -132,7 +132,7 @@ public class Utility
 		}
 	}
 
-	private static BufferedImage removeThenCreate(List<Couple> list)
+	private static BufferedImage removeThenCreate(List<Family> list)
 	{
 		int coupleCnt = 20;
 		BufferedImage img = new BufferedImage(850, 1000, BufferedImage.TYPE_3BYTE_BGR);
@@ -145,7 +145,7 @@ public class Utility
 		g2d.setColor(Color.black);
 	    g2d.drawLine(img.getWidth()/2, 0, img.getWidth()/2, img.getHeight());
 
-	    List<Couple> sublist = new ArrayList<>();
+	    List<Family> sublist = new ArrayList<>();
 	    IntStream.range(0, Math.min(coupleCnt, list.size())).forEach(i->sublist.add(list.remove(0)));
 	    int xOffset = 10;
 	    draw(g2d,sublist,xOffset);
@@ -158,7 +158,7 @@ public class Utility
 	    return img;
 	}
 
-	private static void draw(Graphics2D g2d,List<Couple> roster,int xOffset)
+	private static void draw(Graphics2D g2d,List<Family> roster,int xOffset)
 	{
 		String today = LocalDateTime.now().toString().split("T")[0];
 		g2d.setColor(Color.black);

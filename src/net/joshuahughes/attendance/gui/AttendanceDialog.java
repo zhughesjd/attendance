@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import net.joshuahughes.attendance.Utility;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.gui.attendancepanel.AttendancePanel;
 import net.joshuahughes.attendance.gui.attendancepanel.CouplePanel;
 import net.joshuahughes.attendance.gui.attendancepanel.EditPanel;

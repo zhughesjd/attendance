@@ -25,8 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicArrowButton;
 
 import net.joshuahughes.attendance.Utility;
-import net.joshuahughes.attendance.couple.Couple;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.model.Model;
 import net.joshuahughes.attendance.model.Model.Status;
 
@@ -79,7 +79,7 @@ public class TextPanel extends AttendancePanel
 		toEnrolled.addActionListener(e->
 		{
 			LinkedHashSet<Person> people = new LinkedHashSet<>(); 
-			model.getCouples(Status.enrolled, Couple.alphabetical).stream().forEach(c->
+			model.getCouples(Status.enrolled, Family.alphabetical).stream().forEach(c->
 			{
 				people.add(c.getHusband());
 				people.add(c.getWife());
@@ -102,7 +102,7 @@ public class TextPanel extends AttendancePanel
 			enrolled.clear();
 			Leader leader = (Leader) leaderBox.getSelectedItem();
 			if(leader == null) return;
-			List<Person> people = model.getPeople(Status.enrolled, Couple.alphabetical);
+			List<Person> people = model.getPeople(Status.enrolled, Family.alphabetical);
 			leader.members.stream().forEach(s->
 			{
 				text.addElement(s);
@@ -136,8 +136,8 @@ public class TextPanel extends AttendancePanel
                       boolean isSelected, boolean cellHasFocus) 
 			{
                  Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                 if (value instanceof Couple) {
-                      Couple couple = (Couple) value;
+                 if (value instanceof Family) {
+                      Family couple = (Family) value;
                       int i = Math.min(255,(int) Duration.between(LocalDateTime.now(), couple.getLastAttended()).abs().toDays());
                       setBackground(new Color(255,255-i,255-i));
                  }

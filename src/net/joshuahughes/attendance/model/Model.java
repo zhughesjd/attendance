@@ -5,22 +5,22 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import net.joshuahughes.attendance.couple.Couple;
-import net.joshuahughes.attendance.couple.Person;
+import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 
 public interface Model
 {
 	public enum Status{enrolled,retired}
 
-	public List<Couple> getCouples(Status status,Comparator<Couple> cmp);
-    public boolean add(Couple couple,Status status);
-	public boolean remove(Couple couple,Status status);
+	public List<Family> getCouples(Status status,Comparator<Family> cmp);
+    public boolean add(Family couple,Status status);
+	public boolean remove(Family couple,Status status);
 	public void finishCheckin(Person person);
 
-	public default List<Person> getPeople(Status status,Comparator<Couple> cmp)
+	public default List<Person> getPeople(Status status,Comparator<Family> cmp)
 	{
 		ArrayList<Person> list = new  ArrayList<>();
-		List<Couple> cs = getCouples(status, cmp);
+		List<Family> cs = getCouples(status, cmp);
 		cs.stream().forEach(c->
 		{
 			list.add(c.getHusband());
@@ -28,13 +28,13 @@ public interface Model
 		});
 		return list ;
 	}
-	public default boolean enroll(Couple couple)
+	public default boolean enroll(Family couple)
 	{
 		remove(couple, Status.retired);
 		add(couple, Status.enrolled);
 		return true;
 	}
-	public default boolean retire(Couple couple)
+	public default boolean retire(Family couple)
 	{
 		remove(couple, Status.enrolled);
 		add(couple, Status.retired);
