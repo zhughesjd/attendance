@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -108,8 +109,13 @@ public class AttendanceDialog extends JDialog
 	private boolean validAdmin()
 	{
 		PinPanel pinPnl = new PinPanel();
-		int option = JOptionPane.showConfirmDialog(null, pinPnl, "enter admin pin", JOptionPane.OK_CANCEL_OPTION);
-		return option == JOptionPane.OK_OPTION && pinPnl.getText().trim().equals("490");
+		int option = JOptionPane.showConfirmDialog(null, pinPnl, "admin pin", JOptionPane.OK_CANCEL_OPTION);
+		boolean valid = pinPnl.getText().trim().equals("490");
+		if(!valid)
+		{
+			JOptionPane.showMessageDialog(null,new JLabel("Incorrect Pin"), " hint: maximum pardon count", JOptionPane.OK_OPTION);
+		}
+		return option == JOptionPane.OK_OPTION && valid;
 	}
 	private void setContent(Component c)
 	{

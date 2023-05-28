@@ -18,7 +18,7 @@ public class StartPanel extends AttendancePanel
 	private Model model;
 	public StartPanel()
 	{
-		super("New Ventrue Attendance Tool");
+		super("New Venture Attendance Tool");
 		backBtn.setText(" ");
 		backBtn.setOpaque(true);
 		backBtn.setBackground(this.getBackground());

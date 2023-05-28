@@ -24,9 +24,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -135,7 +132,8 @@ public class Utility
 	private static BufferedImage removeThenCreate(List<Family> list)
 	{
 		int coupleCnt = 20;
-		BufferedImage img = new BufferedImage(850, 1000, BufferedImage.TYPE_3BYTE_BGR);
+		double percent = .75;
+		BufferedImage img = new BufferedImage((int)(850*percent),(int)(1000*percent), BufferedImage.TYPE_3BYTE_BGR);
 		Graphics2D g2d = img.createGraphics();
 		g2d.setClip(0, 0, img.getWidth(), img.getHeight());
 		g2d.setBackground(Color.white);
@@ -147,18 +145,19 @@ public class Utility
 
 	    List<Family> sublist = new ArrayList<>();
 	    IntStream.range(0, Math.min(coupleCnt, list.size())).forEach(i->sublist.add(list.remove(0)));
-	    int xOffset = 10;
-	    draw(g2d,sublist,xOffset);
+	    int xOffset = 100;
+	    int yOffset = 80;
+	    draw(g2d,sublist,xOffset,yOffset);
 
 	    sublist.clear();
 	    IntStream.range(0, Math.min(coupleCnt, list.size())).forEach(i->sublist.add(list.remove(0)));
 	    xOffset += img.getWidth()/2;
-	    draw(g2d,sublist,xOffset);
+	    draw(g2d,sublist,xOffset,yOffset);
 	
 	    return img;
 	}
 
-	private static void draw(Graphics2D g2d,List<Family> roster,int xOffset)
+	private static void draw(Graphics2D g2d,List<Family> roster,int xOffset,int yOffset)
 	{
 		String today = LocalDateTime.now().toString().split("T")[0];
 		g2d.setColor(Color.black);
@@ -173,10 +172,10 @@ public class Utility
 				Person p = ps[pNdx];
 				String la = p.lastAttended().toString().split("T")[0];
 				if(today.equals(la))
-					g2d.fillRect(xOffset, yNdx.get(), 10, 10);
+					g2d.fillRect(xOffset, yOffset + yNdx.get(), 10, 10);
 				else
-					g2d.drawRect(xOffset, yNdx.get(), 10, 10);
-				g2d.drawString( p.getFirst()+" "+p.getLast(), xOffset+rectDim,yNdx.get()+offset);
+					g2d.drawRect(xOffset, yOffset+yNdx.get(), 10, 10);
+				g2d.drawString( p.getFirst()+" "+p.getLast(), xOffset+rectDim,yOffset + yNdx.get()+offset);
 				yNdx.getAndAdd(15);
 			});
 		});
@@ -184,8 +183,8 @@ public class Utility
 
 	public static void print(BufferedImage image)
 	{
-		JOptionPane.showInputDialog(new ImageIcon(image));
-		int x = 3; if(x == 3) return;
+//		JOptionPane.showInputDialog(new ImageIcon(image));
+//		int x = 3; if(x == 3) return;
 		PrinterJob printJob = PrinterJob.getPrinterJob();
 		printJob.setPrintable(new Printable() {
 			public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {
