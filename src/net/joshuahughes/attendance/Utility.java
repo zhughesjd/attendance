@@ -24,6 +24,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.swing.ImageIcon;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -37,7 +39,6 @@ import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.gui.attendancepanel.TextPanel.Leader;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class Utility
 {
@@ -46,7 +47,7 @@ public class Utility
 	
 	public static void printRoster(Model model)
 	{
-		ArrayList<Family> list = new ArrayList<>(model.getCouples(Status.enrolled,Family.alphabetical));
+		ArrayList<Family> list = new ArrayList<>(model.getFamilies(Family.alphabetical));
 		while(list.size()>0)
 		{
 			print(removeThenCreate(list));
@@ -183,8 +184,8 @@ public class Utility
 
 	public static void print(BufferedImage image)
 	{
-//		JOptionPane.showInputDialog(new ImageIcon(image));
-//		int x = 3; if(x == 3) return;
+		javax.swing.JOptionPane.showInputDialog(new ImageIcon(image));
+		int x = 3; if(x == 3) return;
 		PrinterJob printJob = PrinterJob.getPrinterJob();
 		printJob.setPrintable(new Printable() {
 			public int print(Graphics graphics, PageFormat pageFormat, int pageIndex) throws PrinterException {

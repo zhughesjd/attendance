@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.model.ListModel;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class SublistPanel extends AttendancePanel
 {
@@ -32,7 +31,7 @@ public class SublistPanel extends AttendancePanel
 	public void populate(Model model)
 	{
 		couplesPnl.removeAll();
-		List<Family> list = model.getCouples(Status.enrolled, Family.alphabetical);
+		List<Family> list = model.getFamilies(Family.alphabetical);
 		int rowCnt = list.size()/2;
 		
 		GridBagConstraints gbc = new GridBagConstraints();

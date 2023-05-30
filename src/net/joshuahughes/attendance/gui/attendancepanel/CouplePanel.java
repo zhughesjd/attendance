@@ -9,7 +9,6 @@ import javax.swing.JCheckBox;
 import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class CouplePanel extends AttendancePanel
 {
@@ -38,7 +37,7 @@ public class CouplePanel extends AttendancePanel
 	public void populate(Model model)
 	{
 		cntrPnl.removeAll();
-		Family couple = model.getCouples(Status.enrolled, Family.alphabetical).get(0);
+		Family couple = model.getFamilies(Family.alphabetical).get(0);
 		husband = couple.getHusband();
 		wife = couple.getWife();
 		GridBagConstraints gbc = new GridBagConstraints();

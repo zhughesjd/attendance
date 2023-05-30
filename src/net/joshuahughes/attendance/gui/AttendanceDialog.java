@@ -53,7 +53,7 @@ public class AttendanceDialog extends JDialog
 			editPnl.populate(model);
 			setContent(editPnl);
 		});
-		startPnl.addPropertyChangeListener(StartPanel.ALERT_LEADER, e->
+		startPnl.addPropertyChangeListener(StartPanel.NOTIFY_LEADER, e->
 		{
 			textPnl.populate(model);
 			setContent(textPnl);

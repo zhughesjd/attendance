@@ -13,8 +13,8 @@ public class StartPanel extends AttendancePanel
 	private static final long serialVersionUID = -2746586552461380870L;
 	public static final String CHECK_IN = "Check in";
 	public static final String PRINT_ROSTER = "Print Roster";
-	public static final String EDIT_ROSTER = "Edit Roster";
-	public static final String ALERT_LEADER = "Alert Leader";
+	public static final String EDIT_ROSTER = "Analyze Roster";
+	public static final String NOTIFY_LEADER = "Notify Leader";
 	private Model model;
 	public StartPanel()
 	{
@@ -39,7 +39,7 @@ public class StartPanel extends AttendancePanel
 		cntrPnl.add(createButton(EDIT_ROSTER),gbc);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		cntrPnl.add(createButton(ALERT_LEADER),gbc);
+		cntrPnl.add(createButton(NOTIFY_LEADER),gbc);
 	}
 	public void setModel(Model model)
 	{

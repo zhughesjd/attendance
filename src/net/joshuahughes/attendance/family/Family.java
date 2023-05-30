@@ -1,23 +1,26 @@
 package net.joshuahughes.attendance.family;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class Family implements Comparable<Family>
 {
 	public static String header = "husbandFirst	husbandLast	husbandBirth	wifeFirst	wifeLast	wifeBirth	anniversary	lastAttended";
-	Person husband;
-	Person wife;
+	ArrayList<Person> people = new ArrayList<>();
 	LocalDateTime anniversary;
 
 	public Family(String husbandFirst,String husbandLast,LocalDateTime husbandBirth,LocalDateTime husbandLastAttended,String wifeFirst,String wifeLast,LocalDateTime wifeBirth,LocalDateTime wifeLastAttended,LocalDateTime anniversary)
 	{
-		this.husband = new Person(husbandFirst,husbandLast,husbandBirth,husbandLastAttended,this);
-		this.wife = new Person(wifeFirst,wifeLast,wifeBirth,wifeLastAttended,this);
+		people.add(new Person(husbandFirst,husbandLast,husbandBirth,husbandLastAttended));
+		people.add(new Person(wifeFirst,wifeLast,wifeBirth,wifeLastAttended));
+		people.get(0).setFamily(this);
+		people.get(1).setFamily(this);
 		this.anniversary = anniversary;
 	}
-	public Person getHusband(){return husband;}
-	public Person getWife(){return wife;}
+	public Person getHusband(){return people.get(0);}
+	public Person getWife(){return people.get(1);}
 	public LocalDateTime getAnniversary(){return anniversary;}
 	public LocalDateTime getLastAttended()
 	{
@@ -33,7 +36,13 @@ public class Family implements Comparable<Family>
 	}
 	public String toString()
 	{
-		return husband.getFirst()+"/"+wife.getFirst()+" "+husband.getLast()+" "+getLastAttended().toString().split("T")[0];
+		Person p0 = people.get(0);
+		String p2f = people.size()>1 ? "/"+people.get(1) : "";
+		return p0.getFirst()+p2f+" "+p0.getLast()+" "+getAnniversary().toString().split("T")[0];
+	}
+	public List<Person> getPeople()
+	{
+		return new ArrayList<>(this.people);
 	}
 	public static final Comparator<Family> alphabetical = new Comparator<Family>() {
 

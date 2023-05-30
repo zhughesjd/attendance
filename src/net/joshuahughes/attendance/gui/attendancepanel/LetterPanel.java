@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.model.ListModel;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class LetterPanel extends AttendancePanel
 {
@@ -37,7 +36,7 @@ public class LetterPanel extends AttendancePanel
 		cntrPnl.setLayout(new GridBagLayout());
 		char firstLetter = 'A';
 		AtomicInteger ndx = new AtomicInteger(0);
-		List<Family> list = model.getCouples(Status.enrolled, Family.alphabetical);
+		List<Family> list = model.getFamilies(Family.alphabetical);
 		int charGroupSize = list.size()/(rowCnt*colCnt);
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = gbc.weighty = 1;

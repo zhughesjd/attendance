@@ -1,6 +1,7 @@
 package net.joshuahughes.attendance.family;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 
 public class Person
 {
@@ -10,19 +11,18 @@ public class Person
 	private LocalDateTime lastAttended;
 	private Family family;
 	private boolean leader = false;
-
-	public Person(String first, String last, LocalDateTime birth, LocalDateTime lastAttended, Family couple)
+	public Person(String first, String last, LocalDateTime birth, LocalDateTime lastAttended)
 	{
 		this.first = first;
 		this.last = last;
 		this.birth = birth;
-		this.family = couple;
 		this.lastAttended  = lastAttended;
 		this.leader = false;
 	}
 	public String getFirst(){return first;}
 	public String getLast(){return last;}
 	public Family getFamily(){return family;}
+	public void setFamily(Family family) {this.family = family;}
 	public LocalDateTime getBirth(){return birth;}
 	public LocalDateTime lastAttended(){return lastAttended;}
 	public boolean leader(){return leader;}
@@ -39,4 +39,12 @@ public class Person
 	{
 		return this.lastAttended;
 	}
+	public static final Comparator<Person> LastAttended = new Comparator<Person>() 
+	{
+		@Override
+		public int compare(Person ca,Person cb)
+		{
+			return ca.getLastAttended().compareTo(cb.getLastAttended());
+		}
+	};
 }

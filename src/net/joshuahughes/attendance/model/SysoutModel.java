@@ -21,22 +21,8 @@ public class SysoutModel extends AbstractModel
 {
 	public SysoutModel()
 	{
-		enrolled.addAll(read(Status.enrolled));
-		retired.addAll(read(Status.retired));
+		enrolled.addAll(read());
 	}
-	public boolean enroll(Family couple)
-	{	
-		super.enroll(couple);
-		write();
-		return true;
-	}
-	public boolean retire(Family couple)
-	{	
-		super.retire(couple);
-		write();
-		return true;
-	}
-
 	@Override
 	public void finishCheckin(Person person)
 	{
@@ -45,8 +31,7 @@ public class SysoutModel extends AbstractModel
 	}
 	private void write() 
 	{
-		write(enrolled,"enrolled."+LocalDateTime.now().toString().split("T")[0]+".txt");
-	    write(retired,"retired."+LocalDateTime.now().toString().split("T")[0]+".txt");
+		write(enrolled,"member."+LocalDateTime.now().toString().split("T")[0]+".txt");
 	 }
 	@Override
 	protected void arrivalTextAlert(Person person)
@@ -70,10 +55,10 @@ public class SysoutModel extends AbstractModel
 		}
 	};
 
-	private static final SortedSet<Family> read(Status status) 
+	private static final SortedSet<Family> read() 
 	{
 		TreeSet<Family> sorted = new TreeSet<>();
-		File[] files = new File("./").listFiles(f->f.getName().startsWith(status.name()));
+		File[] files = new File("./").listFiles(f->f.getName().startsWith("members.txt"));
 		String filepath = Arrays.stream(files).map(f->f.getName()).sorted(reverseString).findFirst().get();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(filepath));

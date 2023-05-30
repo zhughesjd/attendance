@@ -10,11 +10,9 @@ public class ListModel extends AbstractModel{
 	public ListModel(List<Family> enrolled,List<Family> retired)
 	{
 		this.enrolled.addAll(enrolled);
-		this.retired.addAll(retired);
 	}
 	@Override
 	protected void arrivalTextAlert(Person person) {
-		// TODO Auto-generated method stub
 		
 	}
 

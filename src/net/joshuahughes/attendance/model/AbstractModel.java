@@ -1,8 +1,6 @@
 package net.joshuahughes.attendance.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SortedSet;
@@ -14,18 +12,15 @@ import net.joshuahughes.attendance.family.Person;
 public abstract class AbstractModel implements Model
 {
 	protected SortedSet<Family> enrolled = new TreeSet<>();
-	protected SortedSet<Family> retired = new TreeSet<>();
 	LinkedHashMap<Status,SortedSet<Family>> map = new LinkedHashMap<>();
 	public AbstractModel()
 	{
-		map.put(Status.enrolled, enrolled);
-		map.put(Status.retired, retired);
+		map.put(Status.member, enrolled);
 	}
 	@Override
-	public List<Family> getCouples(Status status,Comparator<Family> cmp)
+	public List<Family> getFamilies()
 	{
-		ArrayList<Family> list = new ArrayList<Family>(map.get(status));
-		Collections.sort(list, cmp);
+		ArrayList<Family> list = new ArrayList<>(enrolled);
 		return list;
 	}
 	@Override

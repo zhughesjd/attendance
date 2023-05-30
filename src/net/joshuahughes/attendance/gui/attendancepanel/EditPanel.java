@@ -20,24 +20,22 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.plaf.basic.BasicArrowButton;
 
-import net.joshuahughes.attendance.family.Family;
+import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class EditPanel extends AttendancePanel
 {
 	private static final long serialVersionUID = -2277598753023544842L;
 	
-	DefaultListModel<Family> enrolled  = new DefaultListModel<>();
-	DefaultListModel<Family> retired  = new DefaultListModel<>();
+	DefaultListModel<Person> enrolled  = new DefaultListModel<>();
+	DefaultListModel<Person> retire  = new DefaultListModel<>();
 	BasicArrowButton toRetired = new BasicArrowButton(BasicArrowButton.EAST);
 	BasicArrowButton toEnrolled = new BasicArrowButton(BasicArrowButton.WEST);
-	JList<Family> enrolledList = new JList<>(enrolled);
-	JList<Family> retiredList = new JList<>(retired);
-	Model model;
+	JList<Person> enrolledList = new JList<>(enrolled);
+	JList<Person> retiredList = new JList<>(retire);
 	public EditPanel() 
 	{
-		super("Enroll/Rertire Couples");
+		super("Family Analysis");
 		enrolledList.setCellRenderer(create());
 		retiredList.setCellRenderer(create());
 		cntrPnl.setLayout(new BorderLayout());
@@ -57,9 +55,8 @@ public class EditPanel extends AttendancePanel
 			enrolledList.getSelectedValuesList().stream().forEach(c->
 			{
 				enrolled.removeElement(c);
-				retired.addElement(c);
-				sort(retired,Family.lastAttended.reversed());
-				model.retire(c);
+				retire.addElement(c);
+				sort(retire,Person.LastAttended.reversed());
 			});
 			
 		});
@@ -67,10 +64,9 @@ public class EditPanel extends AttendancePanel
 		{
 			retiredList.getSelectedValuesList().stream().forEach(c->
 			{
-				retired.removeElement(c);
+				retire.removeElement(c);
 				enrolled.addElement(c);
-				sort(enrolled,Family.lastAttended);
-				model.enroll(c);
+				sort(enrolled,Person.LastAttended);
 			});
 			
 		});
@@ -78,16 +74,14 @@ public class EditPanel extends AttendancePanel
 	@Override
 	public void populate(Model model)
 	{
-		this.model = model;
 		enrolled.clear();
-		retired.clear();
-		model.getCouples(Status.enrolled, Family.lastAttended).stream().forEach(c->enrolled.addElement(c));
-		model.getCouples(Status.retired, Family.lastAttended.reversed()).stream().forEach(c->retired.addElement(c));
+		retire.clear();
+		model.getPeople(Person.LastAttended).stream().forEach(c->enrolled.addElement(c));
 		
 	}
-	public static void sort(DefaultListModel<Family> m,Comparator<Family> c)
+	public static <T> void sort(DefaultListModel<T> m,Comparator<T> c)
 	{
-		ArrayList<Family> list = new ArrayList<>(IntStream.range(0, m.size()).mapToObj(i->m.get(i)).collect(Collectors.toList()));
+		ArrayList<T> list = new ArrayList<>(IntStream.range(0, m.size()).mapToObj(i->m.get(i)).collect(Collectors.toList()));
 		Collections.sort(list,c);
 		m.removeAllElements();
 		list.stream().forEach(e->m.addElement(e));
@@ -104,9 +98,12 @@ public class EditPanel extends AttendancePanel
                       boolean isSelected, boolean cellHasFocus) 
 			{
                  Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                 if (value instanceof Family) {
-                      Family couple = (Family) value;
-                      int i = Math.min(255,(int) Duration.between(LocalDateTime.now(), couple.getLastAttended()).abs().toDays());
+                 if (value instanceof Person) 
+                 {
+                      Person person = (Person) value;
+                	  setText(person.getFirst()+" "+person.getLast()+" "+person.getLastAttended());
+
+                      int i = Math.min(255,(int) Duration.between(LocalDateTime.now(), person.getLastAttended()).abs().toDays());
                       setBackground(new Color(255,255-i,255-i));
                  }
                  return c;

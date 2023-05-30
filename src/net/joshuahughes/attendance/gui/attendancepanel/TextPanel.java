@@ -79,7 +79,7 @@ public class TextPanel extends AttendancePanel
 		toEnrolled.addActionListener(e->
 		{
 			LinkedHashSet<Person> people = new LinkedHashSet<>(); 
-			model.getCouples(Status.enrolled, Family.alphabetical).stream().forEach(c->
+			model.getFamilies(Family.alphabetical).stream().forEach(c->
 			{
 				people.add(c.getHusband());
 				people.add(c.getWife());
@@ -102,7 +102,7 @@ public class TextPanel extends AttendancePanel
 			enrolled.clear();
 			Leader leader = (Leader) leaderBox.getSelectedItem();
 			if(leader == null) return;
-			List<Person> people = model.getPeople(Status.enrolled, Family.alphabetical);
+			List<Person> people = model.getPeople(Status.member, Family.alphabetical);
 			leader.members.stream().forEach(s->
 			{
 				text.addElement(s);
