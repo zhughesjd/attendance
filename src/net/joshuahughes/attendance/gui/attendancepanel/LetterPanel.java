@@ -49,7 +49,7 @@ public class LetterPanel extends AttendancePanel
 			{
 				gbc.gridx = x;
 				gbc.gridy = y;
-				char secondLetter = list.get(charGroupSize*ndx.getAndIncrement()).getHusband().getLast().charAt(0);
+				char secondLetter = list.get(charGroupSize*ndx.getAndIncrement()).getPeople().get(0).getLast().charAt(0);
 				if(ndx.get() == rowCnt*colCnt) secondLetter = 'Z';
 				JButton btn = addButton(firstLetter,secondLetter,list);
 				cntrPnl.add(btn,gbc);
@@ -65,7 +65,7 @@ public class LetterPanel extends AttendancePanel
 	}
 	private Model model(char c0,char c1,List<Family> list)
 	{
-	   List<Family> l = list.stream().filter(c -> c0<=c.getHusband().getLast().charAt(0) && c.getHusband().getLast().charAt(0)<=c1).collect(Collectors.toList());
+	   List<Family> l = list.stream().filter(c -> c0<=c.getPeople().get(0).getLast().charAt(0) && c.getPeople().get(0).getLast().charAt(0)<=c1).collect(Collectors.toList());
 	   return new ListModel(l, Collections.emptyList());
 	}
 }

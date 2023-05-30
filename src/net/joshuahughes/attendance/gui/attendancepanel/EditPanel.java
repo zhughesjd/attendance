@@ -56,7 +56,7 @@ public class EditPanel extends AttendancePanel
 			{
 				enrolled.removeElement(c);
 				retire.addElement(c);
-				sort(retire,Person.LastAttended.reversed());
+				sort(retire,Person.lastAttendedDecending);
 			});
 			
 		});
@@ -66,7 +66,7 @@ public class EditPanel extends AttendancePanel
 			{
 				retire.removeElement(c);
 				enrolled.addElement(c);
-				sort(enrolled,Person.LastAttended);
+				sort(enrolled,Person.lastAttendedAscending);
 			});
 			
 		});
@@ -76,7 +76,7 @@ public class EditPanel extends AttendancePanel
 	{
 		enrolled.clear();
 		retire.clear();
-		model.getPeople(Person.LastAttended).stream().forEach(c->enrolled.addElement(c));
+		model.getPeople(Person.lastAttendedAscending).stream().forEach(c->enrolled.addElement(c));
 		
 	}
 	public static <T> void sort(DefaultListModel<T> m,Comparator<T> c)

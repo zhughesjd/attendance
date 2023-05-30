@@ -80,19 +80,19 @@ public class SysoutModel extends AbstractModel
 		}
 		return sorted;
 	}
-	private void write(Collection<Family> couples,String filepath) 
+	private void write(Collection<Family> families,String filepath) 
 	{
 		try 
 		{
 			String delimiter = "\t";
 			PrintStream ps = new PrintStream(new FileOutputStream(filepath));
 			ps.println(Family.header);
-			couples.forEach
+			families.forEach
 			(
-				c->ps.println(String.join(delimiter,
-				toString(c.getHusband(),delimiter),
-				toString(c.getWife(),delimiter),
-				c.getAnniversary().toString().split("T")[0]
+				f->ps.println(String.join(delimiter,
+				toString(f.getPeople().get(0),delimiter),
+				toString(f.getPeople().get(1),delimiter),
+				f.getAnniversary().toString().split("T")[0]
 			)));
 			ps.close();
 		}

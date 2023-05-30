@@ -39,7 +39,7 @@ public class Person
 	{
 		return this.lastAttended;
 	}
-	public static final Comparator<Person> LastAttended = new Comparator<Person>() 
+	public static final Comparator<Person> lastAttendedAscending = new Comparator<Person>() 
 	{
 		@Override
 		public int compare(Person ca,Person cb)
@@ -47,4 +47,5 @@ public class Person
 			return ca.getLastAttended().compareTo(cb.getLastAttended());
 		}
 	};
+	public static final Comparator<Person> lastAttendedDecending = lastAttendedAscending.reversed();
 }

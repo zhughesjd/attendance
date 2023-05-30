@@ -167,7 +167,7 @@ public class Utility
 		AtomicInteger yNdx = new AtomicInteger(10);
 		IntStream.range(0, roster.size()).forEach(i->
 		{
-			Person[] ps = new Person[] {roster.get(i).getHusband(),roster.get(i).getWife()};
+			Person[] ps = roster.get(i).getPeople().toArray(new Person[0]);
 			IntStream.range(0, ps.length).forEach(pNdx->
 			{
 				Person p = ps[pNdx];
@@ -176,7 +176,7 @@ public class Utility
 					g2d.fillRect(xOffset, yOffset + yNdx.get(), 10, 10);
 				else
 					g2d.drawRect(xOffset, yOffset+yNdx.get(), 10, 10);
-				g2d.drawString( p.getFirst()+" "+p.getLast(), xOffset+rectDim,yOffset + yNdx.get()+offset);
+				g2d.drawString(p.getFirst()+" "+p.getLast(), xOffset+rectDim,yOffset + yNdx.get()+offset);
 				yNdx.getAndAdd(15);
 			});
 		});

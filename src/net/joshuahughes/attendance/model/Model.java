@@ -38,11 +38,10 @@ public interface Model
 	public default List<Person> getPeople(Status status,Comparator<Family> cmp)
 	{
 		ArrayList<Person> list = new  ArrayList<>();
-		List<Family> cs = getFamilies(cmp);
-		cs.stream().forEach(c->
+		List<Family> fs = getFamilies(cmp);
+		fs.stream().forEach(f->
 		{
-			list.add(c.getHusband());
-			list.add(c.getWife());
+			f.getPeople().stream().forEach(p->list.add(p));
 		});
 		return list ;
 	}

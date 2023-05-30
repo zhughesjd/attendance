@@ -19,15 +19,10 @@ public class Family implements Comparable<Family>
 		people.get(1).setFamily(this);
 		this.anniversary = anniversary;
 	}
-	public Person getHusband(){return people.get(0);}
-	public Person getWife(){return people.get(1);}
 	public LocalDateTime getAnniversary(){return anniversary;}
 	public LocalDateTime getLastAttended()
 	{
-		LocalDateTime lastAttended = getHusband().getLastAttended();
-		if(getWife().getLastAttended().isAfter(lastAttended))
-			lastAttended = getWife().getLastAttended();
-		return lastAttended;
+		return getPeople().stream().sorted(Person.lastAttendedDecending).findFirst().get().getLastAttended();
 	}
 	@Override
 	public int compareTo(Family that)
@@ -49,14 +44,13 @@ public class Family implements Comparable<Family>
 		@Override
 		public int compare(Family cA,Family cB)
 		{
-			int result = cA.getHusband().getLast().compareTo(cB.getHusband().getLast());
+			int result = cA.getPeople().get(0).getLast().compareTo(cB.getPeople().get(0).getLast());
 			if(result !=0 ) return result;
-			result = cA.getHusband().getFirst().compareTo(cB.getHusband().getFirst());
-			if(result !=0 ) return result;
-			result = cA.getWife().getLast().compareTo(cB.getWife().getLast());
-			if(result !=0 ) return result;
-			result = cA.getWife().getFirst().compareTo(cB.getWife().getFirst());
-			if(result !=0 ) return result;
+			for(int i=0;i<Math.min(cA.getPeople().size(), cB.getPeople().size());i++)
+			{
+				result = cA.getPeople().get(i).getFirst().compareTo(cB.getPeople().get(i).getFirst());
+				if(result !=0 ) return result;
+			}
 			return cA.getAnniversary().compareTo(cB.getAnniversary());
 		}
 	};

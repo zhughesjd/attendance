@@ -79,10 +79,9 @@ public class TextPanel extends AttendancePanel
 		toEnrolled.addActionListener(e->
 		{
 			LinkedHashSet<Person> people = new LinkedHashSet<>(); 
-			model.getFamilies(Family.alphabetical).stream().forEach(c->
+			model.getFamilies(Family.alphabetical).stream().forEach(f->
 			{
-				people.add(c.getHusband());
-				people.add(c.getWife());
+				f.getPeople().stream().forEach(p->people.add(p));
 			});
 			textList.getSelectedValuesList().stream().forEach(name->
 			{

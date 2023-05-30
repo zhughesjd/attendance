@@ -49,10 +49,13 @@ public class SublistPanel extends AttendancePanel
 			}
 		}
 	}
-	private Component createButton(Family couple) 
+	private Component createButton(Family family) 
 	{
-		JButton btn = new JButton(couple.getHusband().getFirst()+"/"+couple.getWife().getFirst()+" "+couple.getHusband().getLast());
-		btn.addActionListener(l->firePropertyChange(COUPLE_SELECTED, null, new ListModel(Collections.singletonList(couple),Collections.emptyList())));
+		String first = family.getPeople().get(0).getFirst();
+		String middle = family.getPeople().size()>=2?"/"+family.getPeople().get(1).getFirst():"";
+		String last = family.getPeople().get(0).getLast();
+		JButton btn = new JButton(first+middle+" "+last);
+		btn.addActionListener(l->firePropertyChange(COUPLE_SELECTED, null, new ListModel(Collections.singletonList(family),Collections.emptyList())));
 		return btn;
 	}
 }
