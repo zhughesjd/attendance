@@ -11,15 +11,7 @@ public class ListModel extends AbstractModel{
 	{
 		this.enrolled.addAll(enrolled);
 	}
-	@Override
-	protected void arrivalTextAlert(Person person) {
-		
-	}
 
 	@Override
-	protected void printTag(Person person) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	public void process(Person person){}
 }

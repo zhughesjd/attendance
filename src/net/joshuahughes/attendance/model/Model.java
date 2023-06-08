@@ -1,6 +1,5 @@
 package net.joshuahughes.attendance.model;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -15,7 +14,6 @@ public interface Model
 	public List<Family> getFamilies();
     public boolean add(Family couple,Status status);
 	public boolean remove(Family couple,Status status);
-	public void finishCheckin(Person person);
 
 	public default List<Family> getFamilies(Comparator<Family> cmp)
 	{
@@ -45,9 +43,5 @@ public interface Model
 		});
 		return list ;
 	}
-	public default void checkIn(Person person)
-	{
-		person.setLastAttended(LocalDateTime.now());
-		finishCheckin(person);
-	}
+	public void process(Person person);
 }

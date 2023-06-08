@@ -75,7 +75,7 @@ public class AttendanceDialog extends JDialog
 		});
 		couplePnl.addPropertyChangeListener(CouplePanel.PERSON_CHECKIN, e->
 		{
-			model.checkIn((Person) e.getNewValue());
+			model.process((Person) e.getNewValue());
 			setContent(couplePnl);
 		});
 		couplePnl.addPropertyChangeListener(CouplePanel.COMPLETED, e->

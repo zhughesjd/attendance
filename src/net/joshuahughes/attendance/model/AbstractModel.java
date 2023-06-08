@@ -7,7 +7,6 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.joshuahughes.attendance.family.Family;
-import net.joshuahughes.attendance.family.Person;
 
 public abstract class AbstractModel implements Model
 {
@@ -33,12 +32,4 @@ public abstract class AbstractModel implements Model
 	{
 		return map.get(status).remove(couple);
 	}
-	@Override
-	public void finishCheckin(Person person)
-	{
-		printTag(person);
-		arrivalTextAlert(person);
-	}
-	protected abstract void arrivalTextAlert(Person person);
-	protected abstract void printTag(Person person);
 }

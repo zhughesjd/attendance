@@ -24,21 +24,21 @@ public class SysoutModel extends AbstractModel
 		enrolled.addAll(read());
 	}
 	@Override
-	public void finishCheckin(Person person)
+	public void process(Person person)
 	{
-		super.finishCheckin(person);
+		person.setLastAttended(LocalDateTime.now());
+		printTag(person);
+		arrivalTextAlert(person);
 		write();
 	}
 	private void write() 
 	{
 		write(enrolled,"member."+LocalDateTime.now().toString().split("T")[0]+".txt");
 	 }
-	@Override
 	protected void arrivalTextAlert(Person person)
 	{
 		Utility.sendTexts(person);
 	}
-	@Override
 	protected void printTag(Person person)
 	{
 		int anvDiff = person.getFamily().getAnniversary().getDayOfYear() - LocalDateTime.now().getDayOfYear();

@@ -32,22 +32,23 @@ public class SublistPanel extends AttendancePanel
 	{
 		couplesPnl.removeAll();
 		List<Family> list = model.getFamilies(Family.alphabetical);
-		int rowCnt = list.size()/2;
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = gbc.weighty = 1;
 		gbc.gridx = gbc.gridy = 0;
-		AtomicInteger ndx = new AtomicInteger();
-		for(int y=0;y<rowCnt;y++)
+		AtomicInteger x = new AtomicInteger();
+		AtomicInteger y = new AtomicInteger();
+		list.forEach(f->
 		{
-			for(int x=0;x<colCnt;x++)
+			gbc.gridx = x.getAndIncrement();
+			gbc.gridy = y.get();
+			couplesPnl.add(createButton(f),gbc);
+			if(x.get() >= 2)
 			{
-				if(ndx.get()>=list.size())continue;
-				gbc.gridx = x;
-				gbc.gridy = y;
-				couplesPnl.add(createButton(list.get(ndx.getAndIncrement())),gbc);
+				y.incrementAndGet();
+				x.set(0);
 			}
-		}
+		});
 	}
 	private Component createButton(Family family) 
 	{

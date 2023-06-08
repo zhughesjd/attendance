@@ -3,7 +3,10 @@ package net.joshuahughes.attendance.gui.attendancepanel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -31,41 +34,48 @@ public class LetterPanel extends AttendancePanel
 	}
 	public void populate(Model model)
 	{
+		char firstLetter = 'A';
+		int groupSize = rowCnt*colCnt;
+		List<Family> list = model.getFamilies(Family.alphabetical);
 		
+		TreeMap<String,List<Family>> map = new TreeMap<>();
+		while(firstLetter<='Z')
+		{
+			char first = firstLetter;
+			char last = (char) Math.min ('Z',first+rowCnt-1);
+			List<Family> subList = list.stream().filter(f->first<= f.getPeople().get(0).getLast().charAt(0) && f.getPeople().get(0).getLast().charAt(0) <= last).collect(Collectors.toList());
+			map.put(first+"-"+last, subList);
+			firstLetter+=rowCnt;
+		}
 		cntrPnl.removeAll();
 		cntrPnl.setLayout(new GridBagLayout());
-		char firstLetter = 'A';
 		AtomicInteger ndx = new AtomicInteger(0);
-		List<Family> list = model.getFamilies(Family.alphabetical);
-		int charGroupSize = list.size()/(rowCnt*colCnt);
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.weightx = gbc.weighty = 1;
 		gbc.gridx = gbc.gridy = 0;
 		gbc.fill = GridBagConstraints.NONE;
-		
+		Iterator<Entry<String, List<Family>>> it = map.entrySet().iterator();
 		for(int y=0;y<colCnt;y++)
 		{
-				for(int x=0;x<rowCnt;x++)
+			for(int x=0;x<rowCnt;x++)
 			{
+				if(!it.hasNext()) continue;
+				Entry<String, List<Family>> e = it.next();
+				System.out.println();
 				gbc.gridx = x;
 				gbc.gridy = y;
-				char secondLetter = list.get(charGroupSize*ndx.getAndIncrement()).getPeople().get(0).getLast().charAt(0);
+				char secondLetter = list.get(groupSize*ndx.getAndIncrement()).getPeople().get(0).getLast().charAt(0);
 				if(ndx.get() == rowCnt*colCnt) secondLetter = 'Z';
-				JButton btn = addButton(firstLetter,secondLetter,list);
+				JButton btn = addButton(e.getKey(),e.getValue());
 				cntrPnl.add(btn,gbc);
 				firstLetter = (char) (secondLetter+1);
 			}
 		}
 	}
-	private JButton addButton(char fLtr, char sLtr,List<Family> list)
+	private JButton addButton(String text,List<Family> list)
 	{
-		JButton btn = new JButton(fLtr + (fLtr==sLtr?"":"-"+sLtr));
-		btn.addActionListener(l->firePropertyChange(SUBLIST_SELECTED, null, model(fLtr,sLtr,list)));
+		JButton btn = new JButton(text);
+		btn.addActionListener(l->firePropertyChange(SUBLIST_SELECTED, null, new ListModel(list, Collections.emptyList())));
 		return btn;
-	}
-	private Model model(char c0,char c1,List<Family> list)
-	{
-	   List<Family> l = list.stream().filter(c -> c0<=c.getPeople().get(0).getLast().charAt(0) && c.getPeople().get(0).getLast().charAt(0)<=c1).collect(Collectors.toList());
-	   return new ListModel(l, Collections.emptyList());
 	}
 }
