@@ -28,7 +28,6 @@ import net.joshuahughes.attendance.Utility;
 import net.joshuahughes.attendance.family.Family;
 import net.joshuahughes.attendance.family.Person;
 import net.joshuahughes.attendance.model.Model;
-import net.joshuahughes.attendance.model.Model.Status;
 
 public class TextPanel extends AttendancePanel
 {
@@ -101,7 +100,7 @@ public class TextPanel extends AttendancePanel
 			enrolled.clear();
 			Leader leader = (Leader) leaderBox.getSelectedItem();
 			if(leader == null) return;
-			List<Person> people = model.getPeople(Status.member, Family.alphabetical);
+			List<Person> people = model.getPeople();
 			leader.members.stream().forEach(s->
 			{
 				text.addElement(s);

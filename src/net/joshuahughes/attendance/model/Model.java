@@ -10,10 +10,9 @@ import net.joshuahughes.attendance.family.Person;
 
 public interface Model
 {
-	public enum Status{leader,member,assigned,visitor}
 	public List<Family> getFamilies();
-    public boolean add(Family couple,Status status);
-	public boolean remove(Family couple,Status status);
+    public boolean add(Family couple);
+	public boolean remove(Family couple);
 
 	public default List<Family> getFamilies(Comparator<Family> cmp)
 	{
@@ -32,16 +31,6 @@ public interface Model
 		ArrayList<Person> list = new ArrayList<Person>(getPeople());
 		Collections.sort(list, cmp);
 		return list;
-	}
-	public default List<Person> getPeople(Status status,Comparator<Family> cmp)
-	{
-		ArrayList<Person> list = new  ArrayList<>();
-		List<Family> fs = getFamilies(cmp);
-		fs.stream().forEach(f->
-		{
-			f.getPeople().stream().forEach(p->list.add(p));
-		});
-		return list ;
 	}
 	public void process(Person person);
 }

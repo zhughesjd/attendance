@@ -22,7 +22,7 @@ public class Family implements Comparable<Family>
 	public LocalDateTime getAnniversary(){return anniversary;}
 	public LocalDateTime getLastAttended()
 	{
-		return getPeople().stream().sorted(Person.lastAttendedDecending).findFirst().get().getLastAttended();
+		return getPeople().stream().sorted(Person.sundaysAbsent).findFirst().get().getLastAttended();
 	}
 	@Override
 	public int compareTo(Family that)

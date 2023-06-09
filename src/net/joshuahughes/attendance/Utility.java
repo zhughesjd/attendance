@@ -201,5 +201,10 @@ public class Utility
 		} catch (PrinterException e1) {             
 			e1.printStackTrace();
 		}}
-
+	public static int daysInFuture(LocalDateTime ldt, LocalDateTime future)
+	{
+		int daysInFuture = future.getDayOfYear() - ldt.getDayOfYear();
+		return daysInFuture>=0?daysInFuture : daysInFuture + 365;
+		
+	}
 }

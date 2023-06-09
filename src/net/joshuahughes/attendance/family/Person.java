@@ -39,13 +39,28 @@ public class Person
 	{
 		return this.lastAttended;
 	}
-	public static final Comparator<Person> lastAttendedAscending = new Comparator<Person>() 
+	public static final Comparator<Person> sundaysAbsent = new Comparator<Person>()
 	{
+		
 		@Override
-		public int compare(Person ca,Person cb)
+		public int compare(Person p1, Person p2)
 		{
-			return ca.getLastAttended().compareTo(cb.getLastAttended());
+			return p1.getLastAttended().compareTo(p2.getLastAttended());
 		}
+		public String toString() { return "sundays absent";}
 	};
-	public static final Comparator<Person> lastAttendedDecending = lastAttendedAscending.reversed();
+	
+	public static final Comparator<Person> lastNameFirst = new Comparator<Person>()
+	{
+		
+		@Override
+		public int compare(Person p1, Person p2)
+		{
+			return (p1.getLast()+" "+p1.getFirst()).compareTo(p2.getLast()+" "+p2.getFirst());
+		}
+		public String toString() { return "last name";}
+	};
+	
+	
+			
 }

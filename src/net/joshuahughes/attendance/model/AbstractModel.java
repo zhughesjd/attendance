@@ -1,7 +1,6 @@
 package net.joshuahughes.attendance.model;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -11,11 +10,7 @@ import net.joshuahughes.attendance.family.Family;
 public abstract class AbstractModel implements Model
 {
 	protected SortedSet<Family> enrolled = new TreeSet<>();
-	LinkedHashMap<Status,SortedSet<Family>> map = new LinkedHashMap<>();
-	public AbstractModel()
-	{
-		map.put(Status.member, enrolled);
-	}
+	ArrayList<Family> list = new ArrayList<>();
 	@Override
 	public List<Family> getFamilies()
 	{
@@ -23,13 +18,13 @@ public abstract class AbstractModel implements Model
 		return list;
 	}
 	@Override
-	public boolean add(Family couple, Status status)
+	public boolean add(Family family)
 	{
-		return map.get(status).add(couple);
+		return list.add(family);
 	}
 	@Override
-	public boolean remove(Family couple, Status status)
+	public boolean remove(Family family)
 	{
-		return map.get(status).remove(couple);
+		return list.remove(family);
 	}
 }
