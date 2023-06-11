@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -41,12 +42,13 @@ public class TextPanel extends AttendancePanel
 	BasicArrowButton toEnrolled = new BasicArrowButton(BasicArrowButton.WEST);
 	JList<Person> enrolledList = new JList<>(enrolled);
 	JList<String> textList = new JList<>(text);
+	JComboBox<Config> configBox = createBox();
 	Model model;
-
-
 	public TextPanel()
 	{
-		super("Text leadership upon member arrival");
+		super("Notifications");
+		configBox.setSelectedIndex(0);
+		
 		cntrPnl.setLayout(new BorderLayout());
 		JPanel btnPnl = new JPanel(new GridBagLayout());
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -56,6 +58,8 @@ public class TextPanel extends AttendancePanel
 		btnPnl.add(toEnrolled,gbc);
 		gbc.gridy++;
 		btnPnl.add(leaderBox,gbc);
+		gbc.gridy++;
+		btnPnl.add(configBox,gbc);
 
 		cntrPnl.add(new JScrollPane(enrolledList),BorderLayout.WEST);
 		cntrPnl.add(btnPnl,BorderLayout.CENTER);
@@ -78,10 +82,7 @@ public class TextPanel extends AttendancePanel
 		toEnrolled.addActionListener(e->
 		{
 			LinkedHashSet<Person> people = new LinkedHashSet<>(); 
-			model.getFamilies(Family.alphabetical).stream().forEach(f->
-			{
-				f.getPeople().stream().forEach(p->people.add(p));
-			});
+			model.getPeople().stream().forEach(p->people.add(p));
 			textList.getSelectedValuesList().stream().forEach(name->
 			{
 				Optional<Person> o = people.stream().filter(p->name.equals(p.getFirst()+" "+p.getLast())).findAny();
@@ -121,7 +122,8 @@ public class TextPanel extends AttendancePanel
 	{
 		this.model = model;
 		enrolled.clear();
-		leaderBox.setSelectedItem(null);;
+		model.getPeople().forEach(p->enrolled.addElement(p));
+		leaderBox.setSelectedItem(null);
 	}
 	public static DefaultListCellRenderer create()
 	{
@@ -161,10 +163,6 @@ public class TextPanel extends AttendancePanel
 		m.removeAllElements();
 		list.stream().forEach(e->m.addElement(e));
 	}
-
-	
-	
-	
 	public static class Leader
 	{
 		public String name;
@@ -172,4 +170,25 @@ public class TextPanel extends AttendancePanel
 		public ArrayList<String> members;
 		public String toString() {return name;}
 	}
- }
+	public static class Config
+	{
+		String configName;
+		Comparator<Person> cmp;
+		DefaultListCellRenderer rndr;
+		Function<Person, String> display;
+		public Config(String configName, Comparator<Person> cmp, DefaultListCellRenderer rndr,Function<Person, String> display)
+		{
+			this.configName = configName;
+			this.cmp = cmp;
+			this.rndr = rndr;
+			this.display = display;
+		}
+		public String toString() {return configName;}
+	}
+	public static Config alphabetical= new Config("alphabetical", Person.lastNameFirst, new DefaultListCellRenderer(), p->p.getFirst()+" "+p.getLast());
+	private JComboBox<Config> createBox()
+	{
+		JComboBox<Config> box = new JComboBox<Config>(new Config[] {alphabetical});
+		return box;
+	}
+}
